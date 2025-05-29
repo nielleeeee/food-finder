@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Restaurant Finder
 
-## Getting Started
+This application is a restaurant finder that uses a Large Language Model (LLM) to understand free-form user queries. It converts these queries into structured JSON commands, calls the Foursquare Places API to fetch restaurant data, and displays the results.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Natural Language Query: Users can type what they're looking for in plain English.
+- LLM-Powered Parsing: Uses the Gemini API to convert natural language into a structured Foursquare API query.
+- Foursquare Integration: Fetches real-time restaurant data from the Foursquare Places API.
+- Dynamic Results Display: Shows relevant restaurant details like name, address, rating, price, and hours.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technical Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Package Manager**: pnpm
+- **AI**: Google Gemini API (for natural language processing)
+- **Data Source**: Foursquare Places API
+- **UI**: React, ShadCN UI, React Hook Form (for functional simplicity)
+- **Styling**: Tailwind CSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Prerequisites
 
-## Learn More
+Before you begin, ensure you have the following installed:
 
-To learn more about Next.js, take a look at the following resources:
+- [Node.js](https://nodejs.org/) (v18.x or later recommended)
+- [pnpm](https://pnpm.io/installation)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Setup Instructions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  **Clone the repository (if applicable):**
 
-## Deploy on Vercel
+    ```bash
+    git clone <your-repository-url>
+    cd <repository-name>
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Install dependencies:**
+    Using pnpm, install the project dependencies:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ```bash
+    pnpm install
+    ```
+
+3.  **Set up Environment Variables:**
+    Create a `.env.local` file in the root of your project. This file will store your API keys.
+
+    Add the following environment variables to your `.env.local` file:
+
+    ```env
+    GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+    FOURSQUARE_API_KEY="YOUR_FOURSQUARE_API_KEY"
+    ```
+
+    See the "Environment Variables" section below for more details on obtaining these keys.
+
+4.  **Run the development server:**
+    ```bash
+    pnpm dev
+    ```
+    The application should now be running on [http://localhost:3000](http://localhost:3000).

@@ -1,4 +1,5 @@
 import MessageForm from "@/components/form/form";
+import MessageResponse from "@/components/messageResponse/messageResponse";
 
 export default function Home() {
   return (
@@ -7,6 +8,8 @@ export default function Home() {
         <h1>Restaurant Finder</h1>
 
         <MessageForm />
+
+        <MessageResponse />
       </section>
     </main>
   );

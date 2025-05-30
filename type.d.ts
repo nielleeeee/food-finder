@@ -94,7 +94,10 @@ interface PlacesContextType {
   setPlaces: Dispatch<SetStateAction<FoursquarePlace[]>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
-  error: string | null;
-  setError: Dispatch<SetStateAction<string | null>>;
   clearPlaces: () => void;
+}
+
+interface PlacesSearchResults {
+  results: FoursquarePlace[];
+  total: number;
 }

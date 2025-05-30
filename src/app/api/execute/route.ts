@@ -180,10 +180,12 @@ export async function POST(request: NextRequest) {
     const foursquareData =
       (await foursquareResponse.json()) as FoursquareAPIResponse;
 
+    let finalResultsArray: FoursquarePlace[];
+
     const messageSpecifiedRating = parsedResponse.rating;
 
     if (typeof messageSpecifiedRating === "number") {
-      const filteredData = foursquareData.results.filter(
+      finalResultsArray = foursquareData.results.filter(
         (restoItem: FoursquarePlace) => {
           if (typeof restoItem.rating === "number") {
             return restoItem.rating >= messageSpecifiedRating;
@@ -192,13 +194,16 @@ export async function POST(request: NextRequest) {
           return false;
         }
       );
-
-      return NextResponse.json(filteredData, { status: 200 });
     }
 
-    console.log(foursquareData);
+    finalResultsArray = foursquareData.results;
 
-    return NextResponse.json(foursquareData, { status: 200 });
+    const responseData = {
+      results: finalResultsArray,
+      total: finalResultsArray.length,
+    };
+
+    return NextResponse.json(responseData, { status: 200 });
   } catch (error) {
     console.error("Error processing foursquare request:", error);
 

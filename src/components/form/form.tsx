@@ -3,6 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { usePlacesContext } from "@/lib/placesContext";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +23,8 @@ const formSchema = z.object({
 });
 
 export default function MessageForm() {
+  const { setPlaces } = usePlacesContext();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,16 +33,35 @@ export default function MessageForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    await fetch("/api/execute", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    }).finally(() => {
-      console.log("Request sent");
+    try {
+      const response = await fetch("/api/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send request");
+      }
+
+      const responseData = (await response.json()) as PlacesSearchResults;
+
+      setPlaces(responseData.results);
+
+      toast.success(
+        "There are " + responseData.total + " places matching your query."
+      );
+
+      console.log("API Response", responseData);
+    } catch (error) {
+      toast.error("Error sending request");
+
+      console.error("Error sending request", error);
+    } finally {
       form.reset();
-    });
+    }
   };
 
   return (
@@ -63,6 +86,7 @@ export default function MessageForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting || !form.formState.isDirty}
+          className="cursor-pointer disabled:cursor-default"
         >
           {form.formState.isSubmitting ? "Sending..." : "Send"} Message
         </Button>

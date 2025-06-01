@@ -39,8 +39,22 @@ export default function MessageForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ message: values.query }),
       });
+
+      if (response.status === 429) {
+        const rateLimitData = (await response.json()) as RateLimitErrorResponse;
+
+        const customMessage =
+          rateLimitData.message || "You've made too many requests.";
+        const description = `Please try again after ${new Date(
+          rateLimitData.reset
+        ).toLocaleTimeString()}.`;
+
+        toast.error(customMessage, { description });
+
+        return;
+      }
 
       if (!response.ok) {
         throw new Error("Failed to send request");

@@ -101,3 +101,10 @@ interface PlacesSearchResults {
   results: FoursquarePlace[];
   total: number;
 }
+
+interface RateLimitErrorResponse {
+    message?: string;
+    limit?: number;
+    remaining?: number;
+    reset: string;
+}

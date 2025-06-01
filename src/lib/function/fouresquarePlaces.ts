@@ -37,15 +37,11 @@ export const getFoursquarePlacesData = async (
 
     if (!foursquareHttpResponse.ok) {
       let errorDetails = `Foursquare API request failed with status ${foursquareHttpResponse.status}`;
-      try {
-        const errorData = await foursquareHttpResponse.json();
-        errorDetails = errorData.message || JSON.stringify(errorData);
-      } catch (e) {
-        const textError = await foursquareHttpResponse
-          .text()
-          .catch(() => "Could not read error body.");
-        errorDetails = textError || errorDetails;
-      }
+
+      const errorData = await foursquareHttpResponse.json();
+
+      errorDetails = errorData.message || JSON.stringify(errorData);
+
       throw new Error("Foursquare API request failed: " + errorDetails);
     }
 
@@ -83,9 +79,9 @@ export const getFoursquarePlacesData = async (
       results: finalResultsArray,
       total: finalResultsArray.length,
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error in fetchAndFilterFoursquarePlaces:", error);
 
-    throw new Error("Foursquare data processing failed" + error);
+    throw new Error("Foursquare data processing failed");
   }
 };

@@ -85,11 +85,11 @@ export default function PlaceCard({ place }: PlaceCardProps) {
 
         {place.description && (
           <p className="text-sm text-muted-foreground pt-2 italic truncate">
-            "
+            &quot;
             {place.description.length > 100
               ? `${place.description.substring(0, 97)}...`
               : place.description}
-            "
+            &quot;
           </p>
         )}
       </CardContent>

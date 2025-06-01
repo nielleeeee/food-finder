@@ -43,9 +43,9 @@ export const getParsedParamsFromLLM = async (
     }
 
     return parsed;
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error in getParsedParamsFromLLM:", error);
 
-    throw new Error("AI translation request failed", error);
+    throw new Error("AI translation request failed");
   }
 };

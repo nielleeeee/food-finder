@@ -2,8 +2,6 @@
 
 import PlaceCard from "@/components/card/placeCard";
 import { usePlacesContext } from "@/lib/placesContext";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Info } from "lucide-react";
 
 export default function PlaceList() {
   const { places, isLoading } = usePlacesContext();
@@ -21,6 +19,11 @@ export default function PlaceList() {
     return;
   }
 
+  // Prioritize places with open_now === true
+  const sortedPlaces = places.sort(
+    (a, b) => Number(b.hours?.open_now) - Number(a.hours?.open_now)
+  );
+
   return (
     <div className="py-6">
       <h2 className="text-2xl font-semibold mb-1">Search Results</h2>
@@ -30,7 +33,7 @@ export default function PlaceList() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {places.map((place: FoursquarePlace) => (
+        {sortedPlaces.map((place: FoursquarePlace) => (
           <PlaceCard key={place.fsq_id} place={place} />
         ))}
       </div>
